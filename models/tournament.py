@@ -12,7 +12,10 @@ class Tournament:
         self.description = description
         self.rounds = []
         self.players = [player for player in PlayerController().players if player.chess_id in players_ids] if players_ids else []
-        self.current_round_number = 1
+        for player in self.players:
+            player.score_tournament = 0
+        self.current_round_number = 0
+
     
 
     def to_dict(self):
@@ -35,10 +38,7 @@ class Tournament:
         
     #    On lance le premier tour
         next_round = self.next_round()
-        if not next_round:
-            print("Aucun tour à lancer.")
-            return
-        print(f"Début du tour {self.current_round_number}...")
+
             
        
     # Tant qu'il y à des tournois il faut les lancer sachant que le nombre de tour est limité à 4
@@ -55,5 +55,6 @@ class Tournament:
             return round_
         else:
             print("Tournois terminé.")
+            print(self.players)
             return None
     
