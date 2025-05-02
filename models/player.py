@@ -19,4 +19,3 @@ class Player:
         return f"{self.first_name} {self.last_name} ({self.chess_id})"
     def __repr__(self):
         return f"Player({self.first_name}, {self.last_name}, {self.birth_date}, {self.chess_id})"
-    
