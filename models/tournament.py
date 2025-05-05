@@ -1,5 +1,4 @@
 from controllers.player_controller import PlayerController
-from controllers.tournament_controller import TournamentController
 from models.round import Round
 from models.player import Player
 
@@ -29,6 +28,8 @@ class Tournament:
             "rounds": [round_.to_dict() for round_ in self.rounds],
             "players": [player.to_dict() for player in self.players],
             "current_round_number": self.current_round_number,
+            "player_points": getattr(self, "player_points", {}),
+            "winner": getattr(self, "winner", None)
         }
     
     def start(self):
@@ -71,14 +72,22 @@ class Tournament:
         max_score = max(player.score_tournament for player in self.players)
     # Trouver les joueurs ayant le score maximal
         winners = [player for player in self.players if player.score_tournament == max_score]
+    # Stocker les scores de chaque joueur (pour le JSON)
+        self.player_points = {f"{player.first_name} {player.last_name}": player.score_tournament for player in self.players}
 
         if len(winners) == 1:
+            winner_name = f"{winners[0].first_name} {winners[0].last_name}"
             print(f"Le vainqueur est : {winners[0].first_name} {winners[0].last_name} avec {max_score} points.")
+            self.winner = winner_name
             return winners[0]
         else:
             print("Il y a une égalité entre :")
+            winner_names = []
             for player in winners:
+                name = f"{player.first_name} {player.last_name}"
                 print(f"- {player.first_name} {player.last_name} ({player.score_tournament} points)")
+                winner_names.append(name)
+                self.winner = winner_names  
             return winners
         
     
