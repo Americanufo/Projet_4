@@ -34,7 +34,7 @@ class Round:
         print("Scores enregistrés !")
 
     def to_dict(self):
-        # On convertit chaque match en une structure sérialisable
+        # On structure chaque match pour l'enregistrement des fichier JSON
         matches_list = []
         for match in self.matches:
             player1, score1 = match[0]

@@ -1,8 +1,7 @@
 from controllers.player_controller import PlayerController
+from controllers.tournament_controller import TournamentController
 from models.round import Round
 from models.player import Player
-import json
-import re
 
 class Tournament:
     def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
@@ -51,7 +50,7 @@ class Tournament:
             next_round = self.next_round()
         print("Tous les tours ont été joués.")
         self.get_winner()
-        self.save_to_json()
+        
 
     def next_round(self):
         if len (self.rounds) < self.nb_rounds:
@@ -82,14 +81,4 @@ class Tournament:
                 print(f"- {player.first_name} {player.last_name} ({player.score_tournament} points)")
             return winners
         
-    def save_to_json(self):
-        # Nettoyer le nom du tournoi et la date
-        safe_name = re.sub(r'[^a-zA-Z0-9_-]', '_', self.name.strip()).lower()
-        safe_date = re.sub(r'[^0-9]', '', self.start_date)
-        file_name = f"{safe_name}_{safe_date}.json"
-        file_path = f"data/tournaments/{file_name}"
-
-        # Sauvegarder au format JSON
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(self.to_dict(), f, ensure_ascii=False, indent=4)
-        print(f"Tournoi sauvegardé dans {file_path}")    
+    
