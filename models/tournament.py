@@ -1,6 +1,6 @@
 from controllers.player_controller import PlayerController
 from models.round import Round
-from views.tournament_view import show_round_start, show_all_rounds_played, show_tournement_end, show_players, show_no_players
+from views.tournament_view import show_round_start, show_all_rounds_played, show_tournement_end, show_players, show_no_players, show_winner, show_equality, show_equality_player
 
 class Tournament:
     def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
@@ -79,15 +79,15 @@ class Tournament:
 
         if len(winners) == 1:
             winner_name = f"{winners[0].first_name} {winners[0].last_name}"
-            print(f"Le vainqueur est : {winners[0].first_name} {winners[0].last_name} avec {max_score} points.")
+            show_winner(winner_name, max_score)
             self.winner = winner_name
             return winners[0]
         else:
-            print("Il y a une égalité entre :")
+            show_equality()
             winner_names = []
             for player in winners:
                 name = f"{player.first_name} {player.last_name}"
-                print(f"- {player.first_name} {player.last_name} ({player.score_tournament} points)")
+                show_equality_player(player)
                 winner_names.append(name)
                 self.winner = winner_names  
             return winners
