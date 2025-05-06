@@ -1,6 +1,6 @@
 from controllers.player_controller import PlayerController
 from models.round import Round
-from models.player import Player
+from views.tournament_view import show_round_start, show_all_rounds_played, show_tournement_end, show_players, show_no_players
 
 class Tournament:
     def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
@@ -15,6 +15,8 @@ class Tournament:
         for player in self.players:
             player.score_tournament = 0
         self.current_round_number = 0
+        self.player_points = {}
+        self.winner = None
 
     
 
@@ -28,8 +30,8 @@ class Tournament:
             "rounds": [round_.to_dict() for round_ in self.rounds],
             "players": [player.to_dict() for player in self.players],
             "current_round_number": self.current_round_number,
-            "player_points": getattr(self, "player_points", {}),
-            "winner": getattr(self, "winner", None)
+            "player_points": self.player_points,
+            "winner": self.winner
         }
     
     def start(self):
@@ -46,10 +48,10 @@ class Tournament:
        
     # Tant qu'il y à des tournois il faut les lancer sachant que le nombre de tour est limité à 4
         while next_round:
-            print(f"Lancement du tour {self.current_round_number}...")  
+            show_round_start(self.current_round_number) 
             next_round.saisir_scores()
             next_round = self.next_round()
-        print("Tous les tours ont été joués.")
+        show_all_rounds_played()
         self.get_winner()
         
 
@@ -60,13 +62,13 @@ class Tournament:
             self.rounds.append(round_)
             return round_
         else:
-            print("Tournois terminé.")
-            print(self.players)
+            show_tournement_end()
+            show_players(self.players)
             return None
     
     def get_winner(self):
         if not self.players:
-            print("Aucun joueur dans le tournoi.")
+            show_no_players()
             return None
     # Trouver le score maximal
         max_score = max(player.score_tournament for player in self.players)

@@ -9,7 +9,6 @@ class TournamentController:
     def add_tournament(self, name, location, start_date, end_date, description="", rounds=4, players_ids=None):
         tournament = Tournament(name, location, start_date, end_date, description, rounds, players_ids)
         self.tournaments.append(tournament)
-        self.save_to_json(tournament)
         return tournament
 
     def save_to_json(self, tournament):

@@ -27,6 +27,13 @@ class Round:
                 score2 = 0.5
             else:
                 score2 = 0
+
+            # Correction pour un affichage propre dans le fichier JSON
+            if score1.is_integer():
+                score1 = int(score1)
+            if isinstance(score2, float) and score2.is_integer():
+                score2 = int(score2)
+
             match[0][1] = score1
             match[1][1] = score2
             player1.score_tournament += score1

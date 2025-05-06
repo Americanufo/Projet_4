@@ -1,10 +1,11 @@
 class Player:
-    def __init__(self, last_name, first_name, birth_date, chess_id, points=0):
+    def __init__(self, last_name, first_name, birth_date, chess_id, points=0, score_tournament=0):
         self.last_name = last_name
         self.first_name = first_name
         self.birth_date = birth_date
         self.chess_id = chess_id
         self.points = points
+        self.score_tournament = score_tournament
 
     def to_dict(self):
         return {
@@ -12,7 +13,7 @@ class Player:
             "first_name": self.first_name,
             "birth_date": self.birth_date,
             "chess_id": self.chess_id,
-            "points": self.points,
+            "score_tournament": self.score_tournament
         }
     
     def __str__(self):

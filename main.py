@@ -40,6 +40,7 @@ while True:
         # Créer le tournoi
         tournament = tournament_controller.add_tournament(name, location, start_date, end_date, description, int(rounds), ids)
         tournament.start()
+        tournament_controller.save_to_json(tournament)
         print(f" {name} créé avec succès !")
     elif choice == "3":
         print("Voir les rapports")
