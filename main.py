@@ -1,7 +1,10 @@
 import os
 from views.menu import display_main_menu
+from views.reports_views import reports
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
+
+
 
 # Vérifie si les dossiers nécessaires existent
 if not os.path.exists("data/tournaments"):
@@ -45,6 +48,7 @@ while True:
     elif choice == "3":
         print("Voir les rapports")
         # Appeler la fonction pour voir les rapports
+        reports()
     elif choice == "4":
         print("Merci d'avoir utilisé Chess Manager ! Au revoir !")
         # Quitter le programme   
