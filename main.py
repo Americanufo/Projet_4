@@ -4,8 +4,6 @@ from views.reports_views import reports
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
 
-
-
 # Vérifie si les dossiers nécessaires existent
 if not os.path.exists("data/tournaments"):
     os.makedirs("data/tournaments")

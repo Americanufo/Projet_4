@@ -1,6 +1,6 @@
 from controllers.player_controller import PlayerController
 from models.round import Round
-from views.tournament_view import show_round_start, show_all_rounds_played, show_tournement_end, show_players, show_no_players, show_winner, show_equality, show_equality_player
+from views.tournament_view import Terminal_view
 
 class Tournament:
     def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
@@ -48,10 +48,10 @@ class Tournament:
        
     # Tant qu'il y à des tournois il faut les lancer sachant que le nombre de tour est limité à 4
         while next_round:
-            show_round_start(self.current_round_number) 
+            Terminal_view.show_round_start(self.current_round_number) 
             next_round.saisir_scores()
             next_round = self.next_round()
-        show_all_rounds_played()
+            Terminal_view.show_all_rounds_played()
         self.get_winner()
         
 
@@ -62,13 +62,13 @@ class Tournament:
             self.rounds.append(round_)
             return round_
         else:
-            show_tournement_end()
-            show_players(self.players)
+            Terminal_view.show_tournement_end()
+            Terminal_view.show_players(self.players)
             return None
     
     def get_winner(self):
         if not self.players:
-            show_no_players()
+            Terminal_view.show_no_players()
             return None
     # Trouver le score maximal
         max_score = max(player.score_tournament for player in self.players)
@@ -78,16 +78,16 @@ class Tournament:
         self.player_points = {f"{player.first_name} {player.last_name}": player.score_tournament for player in self.players}
 
         if len(winners) == 1:
-            winner_name = f"{winners[0].first_name} {winners[0].last_name}"
-            show_winner(winner_name, max_score)
+            winner_name = [f"{winners[0].first_name} {winners[0].last_name}"]
+            Terminal_view.show_winner(winner_name, max_score)
             self.winner = winner_name
             return winners[0]
         else:
-            show_equality()
+            Terminal_view.show_equality()
             winner_names = []
             for player in winners:
                 name = f"{player.first_name} {player.last_name}"
-                show_equality_player(player)
+                Terminal_view.show_equality_player(player)
                 winner_names.append(name)
                 self.winner = winner_names  
             return winners
