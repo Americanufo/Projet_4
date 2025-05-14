@@ -30,13 +30,13 @@ class Terminal_view:
     def show_matches(matches, with_scores=False):
         print("\nMatchs du round :")
         for match in matches:
-         (player1, score1), (player2, score2) = match
-        if with_scores:
-            s1 = "" if score1 is None else score1
-            s2 = "" if score2 is None else score2
-            print(f"  {player1.first_name} {player1.last_name} ({s1}) vs {player2.first_name} {player2.last_name} ({s2})")
-        else:
-            print(f"  {player1.first_name} {player1.last_name} vs {player2.first_name} {player2.last_name}")
+            (player1, score1), (player2, score2) = match
+            if with_scores:
+             s1 = "" if score1 is None else score1
+             s2 = "" if score2 is None else score2
+             print(f"  {player1.first_name} {player1.last_name} ({s1}) vs {player2.first_name} {player2.last_name} ({s2})")
+            else:
+             print(f"  {player1.first_name} {player1.last_name} vs {player2.first_name} {player2.last_name}")
     print()
 
     @staticmethod

@@ -14,6 +14,7 @@ class Tournament:
         self.players = [player for player in PlayerController().players if player.chess_id in players_ids] if players_ids else []
         for player in self.players:
             player.score_tournament = 0
+            player.opponents = []
         self.current_round_number = 0
         self.player_points = {}
         self.winner = None

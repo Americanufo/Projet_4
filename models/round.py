@@ -1,13 +1,51 @@
+import random
 from views.tournament_view import Terminal_view
 
 class Round:
     def __init__(self, tournament):
         self.tournament = tournament
         Terminal_view.show_round(self.tournament)
-        # On crée un match pour chaque pair de joueurs   
         self.matches = []
-        for i in range(0, len(self.tournament.players) - 1, 2):
-            self.matches.append(([self.tournament.players[i], None], [self.tournament.players[i + 1], None]))
+
+        # Génération des paires pour le tour 
+        if tournament.current_round_number == 1:
+            # Premier tour : mélange aléatoire des joueurs
+            players = self.tournament.players[:]
+            random.shuffle(players)
+        else:
+            # Tours suivants : tri des joueurs par score, puis mélange des ex-aequo
+            players = sorted(self.tournament.players, key=lambda p: p.score_tournament, reverse=True)
+            # Mélange les groupes d'ex-aequo pour varier les appariements
+            i = 0
+            while i < len(players):
+                score = players[i].score_tournament
+                j = i + 1
+                while j < len(players) and players[j].score_tournament == score:
+                    j += 1
+                random.shuffle(players[i:j])
+                i = j
+
+        # On crée un match pour chaque pair de joueurs en évitant les re-matches
+        available_players = players[:]
+        while len(available_players) >= 2:
+            player1 = available_players.pop(0)
+            # Cherche un adversaire que player1 n'a pas encore rencontré
+            for idx, player2 in enumerate(available_players):
+                if player2.chess_id not in player1.opponents:
+                    self.matches.append(([player1, None], [player2, None]))
+                    # On mémorise que ces deux joueurs se sont rencontrés
+                    player1.opponents.append(player2.chess_id)
+                    player2.opponents.append(player1.chess_id)
+                    available_players.pop(idx)
+                    break
+            else:
+                # Si tous les autres ont déjà été rencontrés, on prend le suivant 
+                player2 = available_players.pop(0)
+                self.matches.append(([player1, None], [player2, None]))
+                player1.opponents.append(player2.chess_id)
+                player2.opponents.append(player1.chess_id)
+
+        # Affiche les matchs du round (scores non renseignés)
         Terminal_view.show_matches(self.matches, with_scores=False)
         
 
@@ -39,13 +77,16 @@ class Round:
 
             match[0][1] = score1
             match[1][1] = score2
+            # Mise à jour des scores dans le tournoi
             player1.score_tournament += score1
             player2.score_tournament += score2
+
         Terminal_view.show_scores_save()
+        # Affiche les matchs du round avec scores renseignés
         Terminal_view.show_matches(self.matches, with_scores=True)
 
     def to_dict(self):
-        # On structure chaque match pour l'enregistrement des fichier JSON
+        # On structure chaque match pour l'enregistrement des fichiers JSON
         matches_list = []
         for match in self.matches:
             player1, score1 = match[0]
@@ -67,8 +108,3 @@ class Round:
         return {
             "matches": matches_list
         }
-    
-
-        
-        
-    

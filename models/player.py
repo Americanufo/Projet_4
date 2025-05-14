@@ -6,6 +6,7 @@ class Player:
         self.chess_id = chess_id
         self.points = points
         self.score_tournament = score_tournament
+        self.opponents = [] # Liste des adversaires déjà rencontrés
 
     def to_dict(self):
         return {
