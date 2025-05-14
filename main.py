@@ -14,7 +14,7 @@ Terminal_view.show_welcome()
 display_main_menu()
 # Boucle principale du programme
 while True:
-    choice = input("Choisissez une option (1-4) : ")
+    choice = input("Choisissez une option (1-5) : ")
     if choice == "1":
         Terminal_view.show_add_player()
         # Appeler la fonction pour ajouter un joueur
@@ -48,11 +48,16 @@ while True:
         Terminal_view.show_tournament_created(name)
         display_main_menu()
     elif choice == "3":
+        #Terminal_view.
+        # Appeler la fonction pour reprendre un tournois en cour
+        #reports()
+        display_main_menu()
+    elif choice == "4":
         Terminal_view.show_reports()
         # Appeler la fonction pour voir les rapports
         reports()
         display_main_menu()
-    elif choice == "4":
+    elif choice == "5":
         Terminal_view.show_exit()
         # Quitter le programme   
         break
