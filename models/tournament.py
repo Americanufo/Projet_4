@@ -35,10 +35,7 @@ class Tournament:
         }
     
     def start(self):
-        print(f"Début du tournoi {self.name} à {self.location} du {self.start_date} au {self.end_date}.")
-        print(f"Description: {self.description}")
-        print(f"Nombre de tours: {self.nb_rounds}")
-        print(f"Début du tournoi avec {len(self.players)} joueurs.")
+        Terminal_view.show_start(self)
         
 
     #    On lance le premier tour

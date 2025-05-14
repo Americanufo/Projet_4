@@ -1,6 +1,7 @@
 import os
 import json
 from models.tournament import Tournament
+from views.tournament_view import Terminal_view
 
 class TournamentController:
     def __init__(self):
@@ -29,4 +30,4 @@ class TournamentController:
         # Sauvegarder la liste complète
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(tournaments_data, f, ensure_ascii=False, indent=4)
-        print(f"Tournoi sauvegardé dans {file_path}")
+        Terminal_view.show_tournament_saved(file_path)

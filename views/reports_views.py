@@ -1,67 +1,74 @@
-
-import json
-# On charge le fichier JSON Tournaments
-def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("Aucun fichier de tournois trouvé.")
-        return []
-    except json.JSONDecodeError:
-        print("Le fichier de tournois est corrompu ou vide.")
-        return []
-
-# Affichage des détails du tournoi
-def display_tournament_details(tournament):
-    print(f"\n=== Détails du tournoi : {tournament['name']} ===")
-    print(f"Lieu : {tournament['location']}")
-    print(f"Dates : {tournament['start_date']} au {tournament['end_date']}")
-    print(f"Description : {tournament['description']}\n")
-
-    players = sorted(
-        tournament.get("players", []),
-        key=lambda x: (x["last_name"].upper(), x["first_name"].upper())
-    )
-    print("Joueurs du tournoi (ordre alphabétique) :")
-    for player in players:
-        print(f"- {player['first_name']} {player['last_name']} (ID : {player['chess_id']})")
-
-    print("\nTours et matchs :")
-    for i, round_ in enumerate(tournament.get("rounds", []), 1):
-        print(f"\nTour {i} :")
-        for match in round_["matches"]:
-            p1 = match["player1"]
-            p2 = match["player2"]
-            print(f"  {p1['first_name']} {p1['last_name']} ({match['score1']})"
-                  f" vs {p2['first_name']} {p2['last_name']} ({match['score2']})")
-
-# Menu des rapports
-def reports():
-    tournaments = load_tournaments_from_json()
-    if not tournaments:
-        print("Aucun tournoi à afficher.")
-        return
-
-    while True:
+#Impression des rapports
+class Reports_view:
+    def __init__(self):
+        pass
+    
+    @staticmethod
+    def show_reports_menu():
         print("\n=== Menu des rapports ===")
         print("1. Afficher les résultats d'un tournoi")
-        print("2. Quitter")
-        choice = input("Votre choix : ")
-        if choice == "1":
-            print("\nListe des tournois :")
-            for idx, tournament in enumerate(tournaments, 1):
-                print(f"{idx}. {tournament['name']} ({tournament['start_date']} au {tournament['end_date']})")
-            try:
-                num = int(input("Sélectionnez le numéro du tournoi : "))
-                if 1 <= num <= len(tournaments):
-                    display_tournament_details(tournaments[num - 1])
-                else:
-                    print("Numéro invalide.")
-            except ValueError:
-                print("Entrée invalide.")
-        elif choice == "2":
-            print("Merci, à bientôt !")
-            break
-        else:
-            print("Choix invalide, veuillez réessayer.")
+        print("2. Quitter\n")
+
+    @staticmethod
+    def show_no_tournaments():
+        print("\nAucun tournoi à afficher.\n")
+
+    @staticmethod
+    def show_tournaments_list(tournaments):
+        print("\nListe des tournois :")
+        for idx, tournament in enumerate(tournaments, 1):
+            print(f"{idx}. {tournament['name']} ({tournament['start_date']} au {tournament['end_date']})")
+        print()
+
+    @staticmethod
+    def show_invalid_number():
+        print("\nNuméro invalide.\n")
+
+    @staticmethod
+    def show_invalid_entry():
+        print("\nEntrée invalide.\n")
+
+    @staticmethod
+    def show_invalid_choice():
+        print("\nChoix invalide, veuillez réessayer.\n")
+
+    @staticmethod
+    def show_goodbye():
+        print("\nMerci, à bientôt !\n")
+
+    @staticmethod
+    def show_tournament_details(tournament):
+        print(f"\n=== Détails du tournoi : {tournament['name']} ===")
+        print(f"Lieu : {tournament['location']}")
+        print(f"Dates : {tournament['start_date']} au {tournament['end_date']}")
+        print(f"Description : {tournament['description']}\n")
+
+        players = sorted(
+            tournament.get("players", []),
+            key=lambda x: (x["last_name"].upper(), x["first_name"].upper())
+        )
+        print("Joueurs du tournoi (ordre alphabétique) :")
+        for player in players:
+            print(f"- {player['first_name']} {player['last_name']} (ID : {player['chess_id']})")
+
+        print("\nTours et matchs :")
+        for i, round_ in enumerate(tournament.get("rounds", []), 1):
+            print(f"\nTour {i} :")
+            for match in round_["matches"]:
+                p1 = match["player1"]
+                p2 = match["player2"]
+                print(f"  {p1['first_name']} {p1['last_name']} ({match['score1']})"
+                      f" vs {p2['first_name']} {p2['last_name']} ({match['score2']})")
+                # Affichage du vainqueur ou des ex aequo
+        players = tournament.get("players", [])
+        if players:
+            max_score = max(p.get("score_tournament", 0) for p in players)
+            winners = [p for p in players if p.get("score_tournament", 0) == max_score]
+            if len(winners) == 1:
+                w = winners[0]
+                print(f"\nVainqueur du tournoi : {w['first_name']} {w['last_name']} ({w['score_tournament']} points)")
+            else:
+                print("\nVainqueurs ex aequo :")
+                for w in winners:
+                    print(f"- {w['first_name']} {w['last_name']} ({w['score_tournament']} points)")
+        print() 

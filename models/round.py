@@ -1,12 +1,15 @@
+from views.tournament_view import Terminal_view
+
 class Round:
     def __init__(self, tournament):
         self.tournament = tournament
-        print(f"Début du tour {tournament.current_round_number}...")
+        Terminal_view.show_round(self.tournament)
         # On crée un match pour chaque pair de joueurs   
         self.matches = []
         for i in range(0, len(self.tournament.players) - 1, 2):
             self.matches.append(([self.tournament.players[i], None], [self.tournament.players[i + 1], None]))
-        print(self.matches)
+        Terminal_view.show_matches(self.matches, with_scores=False)
+        
 
     def saisir_scores(self):
         # Demande à l'utilisateur de saisir les scores pour chaque match
@@ -19,7 +22,7 @@ class Round:
                     score1 = float(score1)
                     break
                 else:
-                    print("Veuillez entrer 0, 0.5 ou 1.")
+                    Terminal_view.show_please_input()
             # Calcul du score du second joueur
             if score1 == 0:
                 score2 = 1
@@ -38,7 +41,8 @@ class Round:
             match[1][1] = score2
             player1.score_tournament += score1
             player2.score_tournament += score2
-        print("Scores enregistrés !")
+        Terminal_view.show_scores_save()
+        Terminal_view.show_matches(self.matches, with_scores=True)
 
     def to_dict(self):
         # On structure chaque match pour l'enregistrement des fichier JSON

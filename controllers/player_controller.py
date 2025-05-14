@@ -1,6 +1,7 @@
 import os
 import json
 from models.player import Player
+from views.tournament_view import Terminal_view
 
 class PlayerController:
     def __init__(self):
@@ -41,4 +42,4 @@ class PlayerController:
         # Sauvegarder la liste complète
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(player_data, f, ensure_ascii=False, indent=4)
-        print(f"Joueurs sauvegardés dans {file_path}")
+        Terminal_view.show_players_saved(file_path)
