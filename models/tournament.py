@@ -72,7 +72,7 @@ class Tournament:
         max_score = max(player.score_tournament for player in self.players)
     # Trouver les joueurs ayant le score maximal
         winners = [player for player in self.players if player.score_tournament == max_score]
-    # Stocker les scores de chaque joueur (pour le JSON)
+    # Stocker les scores de chaque joueur pour le JSON
         self.player_points = {f"{player.first_name} {player.last_name}": player.score_tournament for player in self.players}
 
         if len(winners) == 1:

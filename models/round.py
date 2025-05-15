@@ -29,7 +29,7 @@ class Round:
         available_players = players[:]
         while len(available_players) >= 2:
             player1 = available_players.pop(0)
-            # Cherche un adversaire que player1 n'a pas encore rencontré
+            # Cherche un adversaire que le joueur n'a pas encore rencontré
             for idx, player2 in enumerate(available_players):
                 if player2.chess_id not in player1.opponents:
                     self.matches.append(([player1, None], [player2, None]))
@@ -82,7 +82,7 @@ class Round:
             player2.score_tournament += score2
 
         Terminal_view.show_scores_save()
-        # Affiche les matchs du round avec scores renseignés
+        # Affiche les matchs du round avec les scores renseignés
         Terminal_view.show_matches(self.matches, with_scores=True)
 
     def to_dict(self):
