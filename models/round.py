@@ -48,6 +48,26 @@ class Round:
         # Affiche les matchs du round (scores non renseignés)
         Terminal_view.show_matches(self.matches, with_scores=False)
         
+    def from_dict(self, round_dict):
+        
+        # Recharge les matches et scores depuis un dictionnaire (pour la reprise d'un tournoi).
+       
+        self.matches = []
+        matches = round_dict.get("matches", {})
+        # Parcours les matchs dans l'ordre des clés (match_1, match_2, ...)
+        for match_num in sorted(matches.keys(), key=lambda x: int(x.split("_")[1])):
+            match = matches[match_num]
+            # Recherche les objets Player à partir de leur chess_id
+            player1 = next((p for p in self.tournament.players if p.chess_id == match["player1"]["chess_id"]), None)
+            player2 = next((p for p in self.tournament.players if p.chess_id == match["player2"]["chess_id"]), None)
+            score1 = match.get("score1")
+            score2 = match.get("score2")
+            self.matches.append(([player1, score1], [player2, score2]))
+            # Mise à jour des scores dans le tournoi 
+            if score1 is not None:
+                player1.score_tournament += score1
+            if score2 is not None:
+                player2.score_tournament += score2
 
     def saisir_scores(self):
         # Demande à l'utilisateur de saisir les scores pour chaque match
@@ -87,11 +107,11 @@ class Round:
 
     def to_dict(self):
         # On structure chaque match pour l'enregistrement des fichiers JSON
-        matches_list = []
-        for match in self.matches:
+        matches_dict = {}
+        for i, match in enumerate(self.matches, start=1):
             player1, score1 = match[0]
             player2, score2 = match[1]
-            matches_list.append({
+            matches_dict[f"match_{i}"] = {
                 "player1": {
                     "first_name": player1.first_name,
                     "last_name": player1.last_name,
@@ -104,7 +124,7 @@ class Round:
                     "chess_id": player2.chess_id
                 },
                 "score2": score2
-            })
+            }
         return {
-            "matches": matches_list
+            "matches": matches_dict
         }

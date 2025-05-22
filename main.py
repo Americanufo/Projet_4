@@ -4,14 +4,15 @@ from controllers.reports_controller import reports
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
 from views.tournament_view import Terminal_view
+from controllers.resume_tournament_controller import resume_tournament
 
 # Vérifie si les dossiers nécessaires existent
 if not os.path.exists("data/tournaments"):
     os.makedirs("data/tournaments")
- 
+
 Terminal_view.show_welcome()
-# Demande à l'utilisateur de choisir une option
 display_main_menu()
+
 # Boucle principale du programme
 while True:
     choice = input("Choisissez une option (1-5) : ")
@@ -25,10 +26,10 @@ while True:
         chess_id = input("ID d'échecs : (ex: AB12345)") or "AB12345"
         player_controller.add_player(last_name, first_name, birth_date, chess_id)
         Terminal_view.show_player_added(first_name, last_name)
+        Terminal_view.show_welcome()
         display_main_menu()
     elif choice == "2":
         Terminal_view.show_create_tournament()
-        display_main_menu()
         # Appeler la fonction pour créer un tournoi
         tournament_controller = TournamentController()
         name = input("Nom du tournoi : (ex: Tournoi de Paris)") or "Tournoi de Paris"
@@ -39,28 +40,28 @@ while True:
         rounds = input("Nombre de tours : (ex: 4)") or "4"
         playerController = PlayerController()
         Terminal_view.show_players(playerController.players)
-        players_ids = input("ID des joueurs (séparés par des virgules) ") or "NOR00123, USA00245, FRA00345, CHN00467"
+        players_ids = input("ID des joueurs (séparés par des virgules) ")
         ids = [id.strip() for id in players_ids.split(",")]
         # Créer le tournoi
         tournament = tournament_controller.add_tournament(name, location, start_date, end_date, description, int(rounds), ids)
         tournament.start()
         tournament_controller.save_to_json(tournament)
         Terminal_view.show_tournament_created(name)
+        Terminal_view.show_welcome()
         display_main_menu()
     elif choice == "3":
-        #Terminal_view.
-        # Appeler la fonction pour reprendre un tournois en cour
-        #reports()
+        resume_tournament()
+        Terminal_view.show_welcome()
         display_main_menu()
     elif choice == "4":
         Terminal_view.show_reports()
-        # Appeler la fonction pour voir les rapports
         reports()
+        Terminal_view.show_welcome()
         display_main_menu()
     elif choice == "5":
         Terminal_view.show_exit()
-        # Quitter le programme   
         break
     else:
         Terminal_view.show_invalid_choice()
+        Terminal_view.show_welcome()
         display_main_menu()

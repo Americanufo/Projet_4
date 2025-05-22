@@ -42,4 +42,4 @@ class PlayerController:
         # Sauvegarder la liste complète
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(player_data, f, ensure_ascii=False, indent=4)
-        Terminal_view.show_players_saved(file_path)
+        

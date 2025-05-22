@@ -27,6 +27,20 @@ class Terminal_view:
         print()
     
     @staticmethod
+    def show_players_final(players):
+        print("\nClassement final des joueurs :\n")
+        print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format('Prénom', 'Nom', 'Date de naissance', "ID d'échecs", "Score"))
+        print("-" * 75)
+    # Trie les joueurs par score décroissant
+        players_sorted = sorted(players, key=lambda p: p.score_tournament, reverse=True)
+        for player in players_sorted:
+            print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format(
+            player.first_name, player.last_name, player.birth_date, player.chess_id, player.score_tournament
+        ))
+    print()
+
+
+    @staticmethod
     def show_matches(matches, with_scores=False):
         print("\nMatchs du round :")
         for match in matches:
@@ -105,11 +119,3 @@ class Terminal_view:
     @staticmethod
     def show_invalid_choice():
         print("\nChoix invalide. Veuillez choisir une option valide.\n")
-
-    @staticmethod
-    def show_tournament_saved(file_path):
-        print(f"\nTournoi sauvegardé dans {file_path}\n")
-
-    @staticmethod
-    def show_players_saved(file_path):
-        print(f"\nJoueurs sauvegardés dans {file_path}\n")

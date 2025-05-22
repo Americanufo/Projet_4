@@ -4,6 +4,7 @@ from models.tournament import Tournament
 from views.tournament_view import Terminal_view
 
 class TournamentController:
+
     def __init__(self):
         self.tournaments = []
 
@@ -24,10 +25,15 @@ class TournamentController:
                 except json.JSONDecodeError:
                     tournaments_data = []
 
-        # Ajouter le nouveau tournoi
+        # Supprimer les doublons (même nom + même date de début)
+        tournaments_data = [
+            t for t in tournaments_data
+            if not (t["name"] == tournament.name and t["start_date"] == tournament.start_date)
+        ]
+
+        # Ajouter le tournoi mis à jour
         tournaments_data.append(tournament.to_dict())
 
         # Sauvegarder la liste complète
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(tournaments_data, f, ensure_ascii=False, indent=4)
-        Terminal_view.show_tournament_saved(file_path)

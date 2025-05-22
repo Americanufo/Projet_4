@@ -19,8 +19,6 @@ class Tournament:
         self.player_points = {}
         self.winner = None
 
-    
-
     def to_dict(self):
         return {
             "name": self.name,
@@ -34,45 +32,53 @@ class Tournament:
             "player_points": self.player_points,
             "winner": self.winner
         }
-    
+
     def start(self):
         Terminal_view.show_start(self)
-        
+        from controllers.tournament_controller import TournamentController
+        tournament_controller = TournamentController()
 
-    #    On lance le premier tour
-        next_round = self.next_round()
-
-            
-       
-    # Tant qu'il y à des tournois il faut les lancer sachant que le nombre de tour est limité à 4
-        while next_round:
-            Terminal_view.show_round_start(self.current_round_number) 
-            next_round.saisir_scores()
+        # Tant qu'il reste des tours à jouer (limité par nb_rounds)
+        while len(self.rounds) < self.nb_rounds:
             next_round = self.next_round()
-            Terminal_view.show_all_rounds_played()
+            if not next_round:
+                break
+            Terminal_view.show_round_start(self.current_round_number)
+            next_round.saisir_scores()
+            tournament_controller.save_to_json(self)
+            # Proposer de continuer ou sortir
+            choix = input("Voulez-vous continuer le tournoi ? (o/n) : ").lower()
+            if choix != "o":
+                print("Tournoi sauvegardé. Retour au menu principal.")
+                return
+
+        # Fin du tournoi
+        Terminal_view.show_all_rounds_played()
         self.get_winner()
-        
+        tournament_controller.save_to_json(self)
 
     def next_round(self):
-        if len (self.rounds) < self.nb_rounds:
-            self.current_round_number += 1
+        # Si le nombre de rounds n'est pas atteint, on crée un nouveau round
+        if len(self.rounds) < self.nb_rounds:
+            self.current_round_number = len(self.rounds) + 1
             round_ = Round(self)
             self.rounds.append(round_)
             return round_
         else:
+            # Si tous les rounds sont joués, on affiche la fin du tournoi
             Terminal_view.show_tournement_end()
-            Terminal_view.show_players(self.players)
+            Terminal_view.show_players_final(self.players)
             return None
-    
+
     def get_winner(self):
         if not self.players:
             Terminal_view.show_no_players()
             return None
-    # Trouver le score maximal
+        # Trouver le score maximal
         max_score = max(player.score_tournament for player in self.players)
-    # Trouver les joueurs ayant le score maximal
+        # Trouver les joueurs ayant le score maximal
         winners = [player for player in self.players if player.score_tournament == max_score]
-    # Stocker les scores de chaque joueur pour le JSON
+        # Stocker les scores de chaque joueur pour le JSON
         self.player_points = {f"{player.first_name} {player.last_name}": player.score_tournament for player in self.players}
 
         if len(winners) == 1:
@@ -87,7 +93,5 @@ class Tournament:
                 name = f"{player.first_name} {player.last_name}"
                 Terminal_view.show_equality_player(player)
                 winner_names.append(name)
-                self.winner = winner_names  
+            self.winner = winner_names
             return winners
-        
-    
