@@ -1,20 +1,22 @@
 import random
 from views.tournament_view import Terminal_view
 
+
 class Round:
     def __init__(self, tournament):
         self.tournament = tournament
         Terminal_view.show_round(self.tournament)
         self.matches = []
 
-        # Génération des paires pour le tour 
+        # Génération des paires pour le tour
         if tournament.current_round_number == 1:
             # Premier tour : mélange aléatoire des joueurs
             players = self.tournament.players[:]
             random.shuffle(players)
         else:
             # Tours suivants : tri des joueurs par score, puis mélange des ex-aequo
-            players = sorted(self.tournament.players, key=lambda p: p.score_tournament, reverse=True)
+            players = sorted(self.tournament.players,
+                             key=lambda p: p.score_tournament, reverse=True)
             # Mélange les groupes d'ex-aequo pour varier les appariements
             i = 0
             while i < len(players):
@@ -39,7 +41,7 @@ class Round:
                     available_players.pop(idx)
                     break
             else:
-                # Si tous les autres ont déjà été rencontrés, on prend le suivant 
+                # Si tous les autres ont déjà été rencontrés, on prend le suivant
                 player2 = available_players.pop(0)
                 self.matches.append(([player1, None], [player2, None]))
                 player1.opponents.append(player2.chess_id)
@@ -47,23 +49,25 @@ class Round:
 
         # Affiche les matchs du round (scores non renseignés)
         Terminal_view.show_matches(self.matches, with_scores=False)
-        
+
     def from_dict(self, round_dict):
-        
+
         # Recharge les matches et scores depuis un dictionnaire (pour la reprise d'un tournoi).
-       
+
         self.matches = []
         matches = round_dict.get("matches", {})
         # Parcours les matchs dans l'ordre des clés (match_1, match_2, ...)
         for match_num in sorted(matches.keys(), key=lambda x: int(x.split("_")[1])):
             match = matches[match_num]
             # Recherche les objets Player à partir de leur chess_id
-            player1 = next((p for p in self.tournament.players if p.chess_id == match["player1"]["chess_id"]), None)
-            player2 = next((p for p in self.tournament.players if p.chess_id == match["player2"]["chess_id"]), None)
+            player1 = next((p for p in self.tournament.players if p.chess_id ==
+                           match["player1"]["chess_id"]), None)
+            player2 = next((p for p in self.tournament.players if p.chess_id ==
+                           match["player2"]["chess_id"]), None)
             score1 = match.get("score1")
             score2 = match.get("score2")
             self.matches.append(([player1, score1], [player2, score2]))
-            # Mise à jour des scores dans le tournoi 
+            # Mise à jour des scores dans le tournoi
             if score1 is not None:
                 player1.score_tournament += score1
             if score2 is not None:
@@ -75,7 +79,8 @@ class Round:
             player1, _ = match[0]
             player2, _ = match[1]
             while True:
-                score1 = input(f"Score pour {player1.first_name} {player1.last_name} (0, 0.5, 1) : ")
+                score1 = input(f"Score pour {player1.first_name} {
+                               player1.last_name} (0, 0.5, 1) : ")
                 if score1 in ["0", "0.5", "1"]:
                     score1 = float(score1)
                     break

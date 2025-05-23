@@ -2,6 +2,7 @@ from controllers.player_controller import PlayerController
 from models.round import Round
 from views.tournament_view import Terminal_view
 
+
 class Tournament:
     def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
         self.nb_rounds = nb_rounds
@@ -11,7 +12,8 @@ class Tournament:
         self.end_date = end_date
         self.description = description
         self.rounds = []
-        self.players = [player for player in PlayerController().players if player.chess_id in players_ids] if players_ids else []
+        self.players = [player for player in PlayerController(
+        ).players if player.chess_id in players_ids] if players_ids else []
         for player in self.players:
             player.score_tournament = 0
             player.opponents = []
@@ -47,7 +49,8 @@ class Tournament:
             next_round.saisir_scores()
             tournament_controller.save_to_json(self)
             # Proposer de continuer ou sortir
-            choix = input("Voulez-vous continuer le tournoi ? (o/n) : ").lower()
+            choix = input(
+                "Voulez-vous continuer le tournoi ? (o/n) : ").lower()
             if choix != "o":
                 print("Tournoi sauvegardé. Retour au menu principal.")
                 return
@@ -77,9 +80,11 @@ class Tournament:
         # Trouver le score maximal
         max_score = max(player.score_tournament for player in self.players)
         # Trouver les joueurs ayant le score maximal
-        winners = [player for player in self.players if player.score_tournament == max_score]
+        winners = [
+            player for player in self.players if player.score_tournament == max_score]
         # Stocker les scores de chaque joueur pour le JSON
-        self.player_points = {f"{player.first_name} {player.last_name}": player.score_tournament for player in self.players}
+        self.player_points = {f"{player.first_name} {
+            player.last_name}": player.score_tournament for player in self.players}
 
         if len(winners) == 1:
             winner_name = [f"{winners[0].first_name} {winners[0].last_name}"]

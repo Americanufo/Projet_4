@@ -1,7 +1,6 @@
 import os
 import json
 from models.player import Player
-from views.tournament_view import Terminal_view
 
 class PlayerController:
     def __init__(self):
@@ -25,7 +24,7 @@ class PlayerController:
         self.players.append(player)
         self.save_to_json(player)
 
-    def save_to_json (self, player):
+    def save_to_json(self, player):
         file_path = "data/tournaments/players.json"
         player_data = []
         

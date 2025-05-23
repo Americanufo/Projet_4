@@ -1,7 +1,6 @@
 import os
 import json
 from models.tournament import Tournament
-from views.tournament_view import Terminal_view
 
 class TournamentController:
 
