@@ -15,8 +15,7 @@ def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
 
 def resume_tournament():
     tournaments = load_tournaments_from_json()
-    # Filtrer les tournois non terminés (on utilise la longueur de rounds pour
-    # être sûr)
+    # Filtrer les tournois non terminés (on utilise la longueur de rounds pour être sûr)
     tournaments_in_progress = [t for t in tournaments if len(
         t.get("rounds", [])) < t.get("nb_rounds", 4)]
     if not tournaments_in_progress:

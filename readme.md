@@ -50,9 +50,9 @@ Pour vérifier la qualité du code et générer un rapport HTML :
     python -m flake8 --version
     ```
 
-3. **Générez le rapport HTML Flake8 tout en ignorant les dossiers concernant l'environnement virtuel:**
+3. **Générez le rapport HTML Flake8 tout en ignorant les dossiers concernant l'environnement virtuel et en maximisant les lignes à 119:**
     ```
-    python -m flake8 --exclude=env,venv,.venv,flake-report,__pycache__ --format=html --htmldir=flake-report
+    python -m flake8 --exclude=env,venv,.venv,flake-report,__pycache__ --format=html --htmldir=flake-report --max-line-length=119
     ```
 
 4. **Ouvrez le rapport dans votre navigateur :**

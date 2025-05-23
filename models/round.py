@@ -14,8 +14,7 @@ class Round:
             players = self.tournament.players[:]
             random.shuffle(players)
         else:
-            # Tours suivants : tri des joueurs par score, puis mélange des
-            # ex-aequo
+            # Tours suivants : tri des joueurs par score, puis mélange des ex-aequo
             players = sorted(self.tournament.players,
                              key=lambda p: p.score_tournament, reverse=True)
             # Mélange les groupes d'ex-aequo pour varier les appariements
@@ -29,8 +28,7 @@ class Round:
                 random.shuffle(players[i:j])
                 i = j
 
-        # On crée un match pour chaque pair de joueurs en évitant les
-        # re-matches
+        # On crée un match pour chaque pair de joueurs en évitant les re-matches
         available_players = players[:]
         while len(available_players) >= 2:
             player1 = available_players.pop(0)
@@ -44,8 +42,7 @@ class Round:
                     available_players.pop(idx)
                     break
             else:
-                # Si tous les autres ont déjà été rencontrés, on prend le
-                # suivant
+                # Si tous les autres ont déjà été rencontrés, on prend le suivant
                 player2 = available_players.pop(0)
                 self.matches.append(([player1, None], [player2, None]))
                 player1.opponents.append(player2.chess_id)
@@ -56,8 +53,7 @@ class Round:
 
     def from_dict(self, round_dict):
 
-        # Recharge les matches et scores depuis un dictionnaire (pour la
-        # reprise d'un tournoi).
+        # Recharge les matches et scores depuis un dictionnaire (pour la reprise d'un tournoi).
 
         self.matches = []
         matches = round_dict.get("matches", {})
