@@ -48,9 +48,9 @@ Pour vérifier la qualité du code et générer un rapport HTML :
     python -m flake8 --version
     ```
 
-3. **Générez le rapport HTML Flake8 :**
+3. **Générez le rapport HTML Flake8 tout en ignorant les dossiers concernant l'environnement virtuel:**
     ```
-    python -m flake8 --format=html --htmldir=flake-report
+    python -m flake8 --exclude=env,venv,.venv,flake-report,__pycache__ --format=html --htmldir=flake-report
     ```
 
 4. **Ouvrez le rapport dans votre navigateur :**

@@ -18,27 +18,36 @@ class Terminal_view:
     @staticmethod
     def show_players(players):
         print("\nListe des joueurs inscrits :\n")
-        print('{:<15} {:<15} {:<15} {:<12}'.format('Prénom', 'Nom', 'Date de naissance', "ID d'échecs"))
+        print('{:<15} {:<15} {:<15} {:<12}'.format(
+            'Prénom', 'Nom', 'Date de naissance', "ID d'échecs"))
         print("-" * 60)
         for player in players:
-            print('{:<15} {:<15} {:<15} {:<12}'.format(
-                player.first_name, player.last_name, player.birth_date, player.chess_id
-            ))
+            print(
+                '{:<15} {:<15} {:<15} {:<12}'.format(
+                    player.first_name,
+                    player.last_name,
+                    player.birth_date,
+                    player.chess_id))
         print()
-    
+
     @staticmethod
     def show_players_final(players):
         print("\nClassement final des joueurs :\n")
-        print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format('Prénom', 'Nom', 'Date de naissance', "ID d'échecs", "Score"))
+        print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format(
+            'Prénom', 'Nom', 'Date de naissance', "ID d'échecs", "Score"))
         print("-" * 75)
     # Trie les joueurs par score décroissant
-        players_sorted = sorted(players, key=lambda p: p.score_tournament, reverse=True)
+        players_sorted = sorted(
+            players, key=lambda p: p.score_tournament, reverse=True)
         for player in players_sorted:
-            print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format(
-            player.first_name, player.last_name, player.birth_date, player.chess_id, player.score_tournament
-        ))
+            print(
+                '{:<15} {:<15} {:<15} {:<12} {:<6}'.format(
+                    player.first_name,
+                    player.last_name,
+                    player.birth_date,
+                    player.chess_id,
+                    player.score_tournament))
     print()
-
 
     @staticmethod
     def show_matches(matches, with_scores=False):
@@ -46,11 +55,21 @@ class Terminal_view:
         for match in matches:
             (player1, score1), (player2, score2) = match
             if with_scores:
-             s1 = "" if score1 is None else score1
-             s2 = "" if score2 is None else score2
-             print(f"  {player1.first_name} {player1.last_name} ({s1}) vs {player2.first_name} {player2.last_name} ({s2})")
+                s1 = "" if score1 is None else score1
+                s2 = "" if score2 is None else score2
+                print(
+                    f"  {
+                        player1.first_name} {
+                        player1.last_name} ({s1}) vs {
+                        player2.first_name} {
+                        player2.last_name} ({s2})")
             else:
-             print(f"  {player1.first_name} {player1.last_name} vs {player2.first_name} {player2.last_name}")
+                print(
+                    f"  {
+                        player1.first_name} {
+                        player1.last_name} vs {
+                        player2.first_name} {
+                        player2.last_name}")
     print()
 
     @staticmethod
@@ -67,11 +86,17 @@ class Terminal_view:
 
     @staticmethod
     def show_equality_player(player):
-        print(f"- {player.first_name} {player.last_name} ({player.score_tournament} points)")
+        print(
+            f"- {player.first_name} {player.last_name} ({player.score_tournament} points)")
 
     @staticmethod
     def show_start(self):
-        print(f"\nDébut du tournoi {self.name} à {self.location} du {self.start_date} au {self.end_date}.")
+        print(
+            f"\nDébut du tournoi {
+                self.name} à {
+                self.location} du {
+                self.start_date} au {
+                    self.end_date}.")
         print(f"Description: {self.description}")
         print(f"Nombre de tours: {self.nb_rounds}")
         print(f"Début du tournoi avec {len(self.players)} joueurs.\n")

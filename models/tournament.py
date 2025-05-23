@@ -4,7 +4,15 @@ from views.tournament_view import Terminal_view
 
 
 class Tournament:
-    def __init__(self, name, location, start_date, end_date, description="", nb_rounds=4, players_ids=None):
+    def __init__(
+            self,
+            name,
+            location,
+            start_date,
+            end_date,
+            description="",
+            nb_rounds=4,
+            players_ids=None):
         self.nb_rounds = nb_rounds
         self.name = name
         self.location = location

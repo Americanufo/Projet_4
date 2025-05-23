@@ -1,5 +1,12 @@
 class Player:
-    def __init__(self, last_name, first_name, birth_date, chess_id, points=0, score_tournament=0):
+    def __init__(
+            self,
+            last_name,
+            first_name,
+            birth_date,
+            chess_id,
+            points=0,
+            score_tournament=0):
         self.last_name = last_name
         self.first_name = first_name
         self.birth_date = birth_date
@@ -21,4 +28,8 @@ class Player:
         return f"{self.first_name} {self.last_name} ({self.chess_id})"
 
     def __repr__(self):
-        return f"Player({self.first_name}, {self.last_name}, {self.birth_date}, {self.chess_id})"
+        return f"Player({
+            self.first_name}, {
+            self.last_name}, {
+            self.birth_date}, {
+                self.chess_id})"

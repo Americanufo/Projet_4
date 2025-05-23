@@ -1,6 +1,7 @@
 import json
 from views.reports_views import Reports_view
 
+
 def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -11,6 +12,7 @@ def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
     except json.JSONDecodeError:
         print("\nLe fichier de tournois est corrompu ou vide.\n")
         return []
+
 
 def reports():
     tournaments = load_tournaments_from_json()

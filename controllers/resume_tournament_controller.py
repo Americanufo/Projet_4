@@ -4,6 +4,7 @@ from models.round import Round
 from views.resume_tournament_view import ResumeTournamentView
 from controllers.tournament_controller import TournamentController
 
+
 def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -11,10 +12,13 @@ def load_tournaments_from_json(path="data/tournaments/tournaments.json"):
     except (FileNotFoundError, json.JSONDecodeError):
         return []
 
+
 def resume_tournament():
     tournaments = load_tournaments_from_json()
-    # Filtrer les tournois non terminés (on utilise la longueur de rounds pour être sûr)
-    tournaments_in_progress = [t for t in tournaments if len(t.get("rounds", [])) < t.get("nb_rounds", 4)]
+    # Filtrer les tournois non terminés (on utilise la longueur de rounds pour
+    # être sûr)
+    tournaments_in_progress = [t for t in tournaments if len(
+        t.get("rounds", [])) < t.get("nb_rounds", 4)]
     if not tournaments_in_progress:
         ResumeTournamentView.show_no_tournaments()
         return
@@ -34,7 +38,7 @@ def resume_tournament():
                 nb_rounds=t.get('nb_rounds', 4),
                 players_ids=[p['chess_id'] for p in t['players']]
             )
-            # Recharger les rounds déjà joués 
+            # Recharger les rounds déjà joués
             tournament.rounds = []
             if "rounds" in t:
                 for round_dict in t["rounds"]:

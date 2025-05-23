@@ -18,7 +18,11 @@ class Reports_view:
     def show_tournaments_list(tournaments):
         print("\nListe des tournois :")
         for idx, tournament in enumerate(tournaments, 1):
-            print(f"{idx}. {tournament['name']} ({tournament['start_date']} au {tournament['end_date']})")
+            print(
+                f"{idx}. {
+                    tournament['name']} ({
+                    tournament['start_date']} au {
+                    tournament['end_date']})")
         print()
 
     @staticmethod
@@ -41,7 +45,8 @@ class Reports_view:
     def show_tournament_details(tournament):
         print(f"\n=== Détails du tournoi : {tournament['name']} ===")
         print(f"Lieu : {tournament['location']}")
-        print(f"Dates : {tournament['start_date']} au {tournament['end_date']}")
+        print(
+            f"Dates : {tournament['start_date']} au {tournament['end_date']}")
         print(f"Description : {tournament['description']}\n")
 
         # Affichage des joueurs par ordre alphabétique
@@ -51,11 +56,13 @@ class Reports_view:
         )
         print("Joueurs du tournoi (ordre alphabétique) :")
         for player in players:
-            print(f"- {player['first_name']} {player['last_name']} (ID : {player['chess_id']})")
+            print(
+                f"- {player['first_name']} {player['last_name']} (ID : {player['chess_id']})")
 
         # Classement final par score
         print("\nClassement final par score :")
-        print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format('Prénom', 'Nom', 'Date de naissance', "ID d'échecs", "Score"))
+        print('{:<15} {:<15} {:<15} {:<12} {:<6}'.format(
+            'Prénom', 'Nom', 'Date de naissance', "ID d'échecs", "Score"))
         print("-" * 75)
         players_sorted = sorted(
             tournament.get("players", []),
@@ -78,12 +85,20 @@ class Reports_view:
             print(f"\nTour {i} :")
             matches = round_.get("matches", {})
             if matches:
-                for match_num in sorted(matches.keys(), key=lambda x: int(x.split("_")[1])):
+                for match_num in sorted(
+                    matches.keys(), key=lambda x: int(
+                        x.split("_")[1])):
                     match = matches[match_num]
                     p1 = match["player1"]
                     p2 = match["player2"]
-                    print(f" {p1['first_name']} {p1['last_name']} ({match['score1']})"
-                          f" vs {p2['first_name']} {p2['last_name']} ({match['score2']})")
+                    print(
+                        f" {
+                            p1['first_name']} {
+                            p1['last_name']} ({
+                            match['score1']})" f" vs {
+                            p2['first_name']} {
+                            p2['last_name']} ({
+                            match['score2']})")
             else:
                 print(" Aucun match enregistré pour ce tour.")
 
@@ -91,12 +106,18 @@ class Reports_view:
         players = tournament.get("players", [])
         if players:
             max_score = max(p.get("score_tournament", 0) for p in players)
-            winners = [p for p in players if p.get("score_tournament", 0) == max_score]
+            winners = [p for p in players if p.get(
+                "score_tournament", 0) == max_score]
             if len(winners) == 1:
                 w = winners[0]
-                print(f"\nVainqueur du tournoi : {w['first_name']} {w['last_name']} ({w['score_tournament']} points)")
+                print(
+                    f"\nVainqueur du tournoi : {
+                        w['first_name']} {
+                        w['last_name']} ({
+                        w['score_tournament']} points)")
             else:
                 print("\nVainqueurs ex aequo :")
                 for w in winners:
-                    print(f"- {w['first_name']} {w['last_name']} ({w['score_tournament']} points)")
+                    print(
+                        f"- {w['first_name']} {w['last_name']} ({w['score_tournament']} points)")
         print()

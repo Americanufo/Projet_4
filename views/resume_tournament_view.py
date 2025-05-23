@@ -3,7 +3,11 @@ class ResumeTournamentView:
     def show_tournaments_list(tournaments):
         print("\nListe des tournois en cours :")
         for idx, tournament in enumerate(tournaments, 1):
-            print(f"{idx}. {tournament['name']} ({tournament['start_date']} au {tournament['end_date']})")
+            print(
+                f"{idx}. {
+                    tournament['name']} ({
+                    tournament['start_date']} au {
+                    tournament['end_date']})")
         print()
 
     @staticmethod

@@ -14,7 +14,8 @@ class Round:
             players = self.tournament.players[:]
             random.shuffle(players)
         else:
-            # Tours suivants : tri des joueurs par score, puis mélange des ex-aequo
+            # Tours suivants : tri des joueurs par score, puis mélange des
+            # ex-aequo
             players = sorted(self.tournament.players,
                              key=lambda p: p.score_tournament, reverse=True)
             # Mélange les groupes d'ex-aequo pour varier les appariements
@@ -22,12 +23,14 @@ class Round:
             while i < len(players):
                 score = players[i].score_tournament
                 j = i + 1
-                while j < len(players) and players[j].score_tournament == score:
+                while j < len(
+                        players) and players[j].score_tournament == score:
                     j += 1
                 random.shuffle(players[i:j])
                 i = j
 
-        # On crée un match pour chaque pair de joueurs en évitant les re-matches
+        # On crée un match pour chaque pair de joueurs en évitant les
+        # re-matches
         available_players = players[:]
         while len(available_players) >= 2:
             player1 = available_players.pop(0)
@@ -41,7 +44,8 @@ class Round:
                     available_players.pop(idx)
                     break
             else:
-                # Si tous les autres ont déjà été rencontrés, on prend le suivant
+                # Si tous les autres ont déjà été rencontrés, on prend le
+                # suivant
                 player2 = available_players.pop(0)
                 self.matches.append(([player1, None], [player2, None]))
                 player1.opponents.append(player2.chess_id)
@@ -52,12 +56,15 @@ class Round:
 
     def from_dict(self, round_dict):
 
-        # Recharge les matches et scores depuis un dictionnaire (pour la reprise d'un tournoi).
+        # Recharge les matches et scores depuis un dictionnaire (pour la
+        # reprise d'un tournoi).
 
         self.matches = []
         matches = round_dict.get("matches", {})
         # Parcours les matchs dans l'ordre des clés (match_1, match_2, ...)
-        for match_num in sorted(matches.keys(), key=lambda x: int(x.split("_")[1])):
+        for match_num in sorted(
+            matches.keys(), key=lambda x: int(
+                x.split("_")[1])):
             match = matches[match_num]
             # Recherche les objets Player à partir de leur chess_id
             player1 = next((p for p in self.tournament.players if p.chess_id ==

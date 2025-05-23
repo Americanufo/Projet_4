@@ -2,6 +2,7 @@ import os
 import json
 from models.player import Player
 
+
 class PlayerController:
     def __init__(self):
         self.players = []
@@ -27,7 +28,7 @@ class PlayerController:
     def save_to_json(self, player):
         file_path = "data/tournaments/players.json"
         player_data = []
-        
+
     # Lire les joueurs existants s'il y en a
         if os.path.exists(file_path):
             with open(file_path, "r", encoding="utf-8") as f:
@@ -41,4 +42,3 @@ class PlayerController:
         # Sauvegarder la liste complète
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(player_data, f, ensure_ascii=False, indent=4)
-        
