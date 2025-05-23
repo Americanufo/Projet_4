@@ -4,8 +4,8 @@ Chess Manager est une application Python permettant de gérer des joueurs, des t
 
 ## Prérequis
 
-- Python 3.8 ou supérieur
-- Un environnement virtuel Python (recommandé)
+- Python 3.12.7 ou supérieur
+- Utiliser environnement virtuel (recommandé)
 - Les dépendances du projet (voir ci-dessous)
 
 ## Installation
@@ -14,7 +14,8 @@ Chess Manager est une application Python permettant de gérer des joueurs, des t
 2. **Créez et activez un environnement virtuel :**
     ```
     python3 -m venv env
-    source env/bin/activate  # Sur Windows : env\Scripts\activate
+    source env/bin/activate  
+    # Sur Windows : env\Scripts\activate
     ```
 3. **Installez les dépendances :**
     ```
@@ -25,6 +26,7 @@ Chess Manager est une application Python permettant de gérer des joueurs, des t
 
 Dans le terminal, à la racine du projet :
 python3 main.py
+
 Vous verrez le menu principal s’afficher dans le terminal.
 
 ## Utilisation

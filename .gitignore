@@ -40,7 +40,6 @@ dist/
 
 # Ignorer les dossiers spécifiques
 data/
-flake_report/
 
 # Ignorer tous les fichiers .zip
 *.zip
